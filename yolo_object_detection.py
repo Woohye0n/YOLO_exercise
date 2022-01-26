@@ -1,6 +1,10 @@
 import cv2
 import numpy as np
 
+
+#####################################
+# get yolov3.weight in https://drive.google.com/file/d/1ZJ84QxFpzuDZ6wsNVGawDA3FXja96yOM/view?usp=sharing
+#####################################
 # Load Yolo
 net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
 classes = []
