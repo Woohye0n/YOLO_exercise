@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 
-
 #####################################
 # get yolov3.weight in https://drive.google.com/file/d/1ZJ84QxFpzuDZ6wsNVGawDA3FXja96yOM/view?usp=sharing
 #####################################
@@ -11,13 +10,14 @@ classes = []
 with open("coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 layer_names = net.getLayerNames()
-output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+output_layers = [layer_names[int(i) - 1]
+                 for i in net.getUnconnectedOutLayers()]
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 img = cv2.VideoCapture(0)
 img.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 img.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-width, height = 1280, 720
+width, height = 640, 480
 while cv2.waitKey(33) < 0:
     # Loading image
     # img = cv2.imread("room_ser.jpg")
@@ -27,7 +27,7 @@ while cv2.waitKey(33) < 0:
     frame = cv2.resize(frame, (640, 480))
     # Detecting objects
     blob = cv2.dnn.blobFromImage(
-        frame, 0.00392, (640, 480), (0, 0, 0), True, crop=False)
+        frame, 1/255, (416, 416), (0, 0, 0), True, crop=False)
 
     net.setInput(blob)
     outs = net.forward(output_layers)
